@@ -9,8 +9,8 @@ import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 @EnableBinding(Source.class)
-@Component
-public class MessageProducer {
+@Component("originalProducer")
+public class MessageProducer implements Producer {
 
     private final Source mySource;
 
@@ -19,8 +19,10 @@ public class MessageProducer {
         this.mySource = mySource;
     }
 
-    public void publishMessage(BidDto bidDto){
+    @Override
+    public BidDto publishMessage(BidDto bidDto){
         mySource.output().send(MessageBuilder.withPayload(bidDto).build());
+        return bidDto;
     }
 
     public Source getMySource() {

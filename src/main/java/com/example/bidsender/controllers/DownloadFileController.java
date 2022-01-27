@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
+
 @RestController
-@Api(value = "hello", description = "Sample hello world application")
+@Api(value = "Upload controller", description = "Controller for upload zip files")
 public class DownloadFileController {
 
     private final DownloadServiceImpl service;
@@ -24,20 +26,19 @@ public class DownloadFileController {
         this.service = service;
     }
 
-    @ApiOperation(value = "Just to test the sample test api of My App Service")
-    @GetMapping("/upload")
+    @ApiOperation(value = "Greeting page")
+    @GetMapping("/uploader")
     public @ResponseBody String provideUploadInfo(){
         return "Вы можете загружать файл с использованием этого URL.";
     }
 
-    @ApiOperation(value = "My App Service get test1 API", position = 1)
-    @PostMapping("/upload")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("name") String name,
-                                                  @RequestParam("file") MultipartFile file) {
-        if (file.getOriginalFilename().endsWith(".zip")) {
+    @ApiOperation(value = "Uploading zip file", position = 1)
+    @PostMapping("/uploader")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        if (Objects.requireNonNull(file.getOriginalFilename()).endsWith(".zip")) {
             if (service.readFile(file)) { return new ResponseEntity<>("File is upload", HttpStatus.OK); }
             else { return new ResponseEntity<>("File is not upload", HttpStatus.INTERNAL_SERVER_ERROR); }
         }
         else { return new ResponseEntity<>("File is not ZIP", HttpStatus.FORBIDDEN); }
     }
-}
+}   
