@@ -10,8 +10,7 @@ import java.util.zip.ZipInputStream;
 public class DownloadServiceImpl{
 
     public boolean readFile(MultipartFile file) {
-        try {
-            ZipInputStream zis = new ZipInputStream(file.getInputStream());
+        try (ZipInputStream zis = new ZipInputStream(file.getInputStream())) {
             ZipEntry entry;
             String name;
             long size;
@@ -27,4 +26,3 @@ public class DownloadServiceImpl{
         }
     }
 }
-
