@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+
+  myapp:
+    container_name: BidSender
+    image: bid_sender_2
+    restart: always
+    environment:
+      spring.rabbitmq.host: rabbitmq
+    ports:
+      - "9000:8080"
+
+  rabbitMQ:
+    container_name: rabbitmq
+    image: rabbitmq:3.9-management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"

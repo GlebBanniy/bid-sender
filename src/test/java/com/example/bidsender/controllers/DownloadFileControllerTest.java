@@ -55,30 +55,30 @@ class DownloadFileControllerTest extends BaseControllerTest{
     }
 
     @Test
-    void handleFileUpload(@Value("${message.upload}") String message) throws Exception {
+    void handleFileUpload() throws Exception {
         given(downloadService.readFile(any(MockMultipartFile.class)))
                 .willReturn(true);
         mockMvc.perform(multipart(uploadUrl)
                         .file(multipartFile))
                 .andExpect(status().isOk())
-                .andExpect(content().string(message));
+                .andExpect(content().string("File is upload"));
     }
 
     @Test
-    void willThrowWhenFileNotLoad(@Value("${message.notUpload}") String message) throws Exception {
+    void willThrowWhenFileNotLoad() throws Exception {
         given(downloadService.readFile(any(MockMultipartFile.class)))
                 .willReturn(false);
         mockMvc.perform(multipart(uploadUrl)
                         .file(multipartFile))
                 .andExpect(status().isInternalServerError())
-                .andExpect(content().string(message));
+                .andExpect(content().string("File is not upload"));
     }
 
     @Test
-    void willThrowWhenFileNotZip(@Value("${message.isNotZip}") String message) throws Exception {
+    void willThrowWhenFileNotZip() throws Exception {
         mockMvc.perform(multipart(uploadUrl)
                         .file(multipartFileNotZip))
                 .andExpect(status().isForbidden())
-                .andExpect(content().string(message));
+                .andExpect(content().string("File is not ZIP"));
     }
 }
