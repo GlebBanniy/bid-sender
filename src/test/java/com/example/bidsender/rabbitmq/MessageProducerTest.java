@@ -47,7 +47,7 @@ class MessageProducerTest extends BaseTest {
     @BeforeEach
     void setUp() {
         bidDto = new BidDto(
-                "Spb",
+                "Sber",
                 "USDRUB",
                 72.13,
                 true);
